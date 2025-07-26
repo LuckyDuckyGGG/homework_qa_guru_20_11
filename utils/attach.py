@@ -9,14 +9,13 @@ def add_screenshot(browser):
 # логи
 def add_logs(browser):
     try:
-        logs = browser.driver.get_log("browser")  # или "performance"
+        devtools = browser.driver.get_devtools()
+        logs = devtools.get_logs()
         if logs:
             log_text = "\n".join(str(log) for log in logs)
-            allure.attach(log_text, name="browser_logs", attachment_type=allure.attachment_type.TEXT)
-        else:
-            allure.attach("No browser logs available", name="browser_logs", attachment_type=allure.attachment_type.TEXT)
+            allure.attach(log_text, name="devtools_logs", attachment_type=allure.attachment_type.TEXT)
     except Exception as e:
-        allure.attach(f"Failed to get logs: {str(e)}", name="log_error", attachment_type=allure.attachment_type.TEXT)
+        allure.attach(f"DevTools error: {str(e)}", name="devtools_error", attachment_type=allure.attachment_type.TEXT)
 
 # html-код страницы
 def add_html(browser):
