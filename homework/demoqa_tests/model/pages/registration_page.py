@@ -18,6 +18,7 @@ class RegistrationPage:
         self.browser.config.window_width = 1920
         self.browser.config.window_height = 1080
         self.browser.open('https://demoqa.com/automation-practice-form')
+        self.browser.execute_script("window.scrollBy(0, 500);")
 
     @allure.step("Заполняем имя")
     def set_name(self, value):
