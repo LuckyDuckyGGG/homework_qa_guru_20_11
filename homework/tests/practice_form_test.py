@@ -1,8 +1,9 @@
 from homework.demoqa_tests.model.pages.registration_page import RegistrationPage
 
-registration_page = RegistrationPage()
+def test_submit_form(setup_browser):
 
-def test_submit_form():
+    registration_page = RegistrationPage(setup_browser)
+
     registration_page.open()
     registration_page.set_name("Michael")
     registration_page.set_last_name("Rodionov")
