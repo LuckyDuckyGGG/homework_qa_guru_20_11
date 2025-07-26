@@ -15,8 +15,7 @@ def setup_browser(request):
         "selenoid:options": {
             "enableVNC": True,
             "enableVideo": True
-        },
-        "goog:loggingPrefs": {"browser": "ALL"}
+        }
     }
     options.capabilities.update(selenoid_capabilities)
 
