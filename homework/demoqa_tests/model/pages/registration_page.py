@@ -1,10 +1,13 @@
 import allure
 from selene import browser, have
 
+from conftest import setup_browser
 from homework.demoqa_tests import resource
 
 
 class RegistrationPage:
+
+    browser = setup_browser
 
     def __init__(self):
         self.registration_user_data = browser.element('.table-responsive').all('td').even
