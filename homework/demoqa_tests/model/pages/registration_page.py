@@ -6,8 +6,8 @@ from homework.demoqa_tests import resource
 
 class RegistrationPage:
 
-    def __init__(self, setup_browser):
-        self.browser = setup_browser
+    def __init__(self, browser):
+        self.browser = browser
         self.registration_user_data = self.browser.element('.table-responsive').all('td').even
         self.state = self.browser.element('#state')
         self.city = self.browser.element('#city')

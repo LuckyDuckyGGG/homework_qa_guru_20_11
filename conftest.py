@@ -1,8 +1,8 @@
 import pytest
-
 from selenium import webdriver
 from selenium.webdriver.chrome.options import Options
-from selene import Browser, Config
+from selene import browser
+
 
 @pytest.fixture(scope='function')
 def setup_browser(request):
@@ -11,16 +11,21 @@ def setup_browser(request):
         "browserName": "chrome",
         "browserVersion": "128.0",
         "selenoid:options": {
-            "enableVideo": False
+            "enableVNC": True,
+            "enableVideo": True
         }
     }
     options.capabilities.update(selenoid_capabilities)
+
     driver = webdriver.Remote(
-        command_executor=f"https://user1:1234@selenoid.autotests.cloud/wd/hub",
+        command_executor="https://user1:1234@selenoid.autotests.cloud/wd/hub",
         options=options
     )
 
-    browser = Browser(Config(driver))
-    yield browser
+    browser.config.driver = driver
+    browser.config.timeout = 4.0
+    browser.config.window_width = 1920
+    browser.config.window_height = 1080
 
+    yield browser
     browser.quit()
