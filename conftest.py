@@ -3,6 +3,8 @@ from selenium import webdriver
 from selenium.webdriver.chrome.options import Options
 from selene import browser
 
+from utils import attach
+
 
 @pytest.fixture(scope='function')
 def setup_browser(request):
@@ -23,9 +25,10 @@ def setup_browser(request):
     )
 
     browser.config.driver = driver
-    browser.config.timeout = 4.0
-    browser.config.window_width = 1920
-    browser.config.window_height = 1080
+
+    attach.add_screenshot(browser)
+    attach.add_logs(browser)
+    attach.add_html(browser)
 
     yield browser
     browser.quit()
