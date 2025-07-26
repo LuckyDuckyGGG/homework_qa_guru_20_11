@@ -1,61 +1,59 @@
 import allure
 from selene import browser, have
 
-from conftest import setup_browser
 from homework.demoqa_tests import resource
 
 
 class RegistrationPage:
 
-    browser = setup_browser
-
-    def __init__(self):
-        self.registration_user_data = browser.element('.table-responsive').all('td').even
-        self.state = browser.element('#state')
-        self.city = browser.element('#city')
-        self.dropdown = browser.all('[id^=react-select][id*=option]')
+    def __init__(self, setup_browser):
+        self.browser = setup_browser
+        self.registration_user_data = self.browser.element('.table-responsive').all('td').even
+        self.state = self.browser.element('#state')
+        self.city = self.browser.element('#city')
+        self.dropdown = self.browser.all('[id^=react-select][id*=option]')
 
     @allure.step("Открываем форму регистрации")
     def open(self):
-        browser.config.window_width = 1920
-        browser.config.window_height = 1080
-        browser.open('https://demoqa.com/automation-practice-form')
+        self.browser.config.window_width = 1920
+        self.browser.config.window_height = 1080
+        self.browser.open('https://demoqa.com/automation-practice-form')
 
     @allure.step("Заполняем имя")
     def set_name(self, value):
-        browser.element('#firstName').type(value)
+        self.browser.element('#firstName').type(value)
 
     @allure.step("Заполняем фамилию")
     def set_last_name(self, value):
-        browser.element('#lastName').type(value)
+        self.browser.element('#lastName').type(value)
 
     @allure.step("Заполняем email")
     def set_email(self, value):
-        browser.element('#userEmail').type(value)
+        self.browser.element('#userEmail').type(value)
 
     @allure.step("Выбираем пол")
     def set_gender(self, gender):
         if gender == "Male":
-            browser.element(f'[for="gender-radio-1"]').click()
+            self.browser.element(f'[for="gender-radio-1"]').click()
         elif gender == "Female":
-            browser.element(f'[for="gender-radio-2"]').click()
+            self.browser.element(f'[for="gender-radio-2"]').click()
         elif gender == "Other":
-            browser.element(f'[for="gender-radio-3"]').click()
+            self.browser.element(f'[for="gender-radio-3"]').click()
 
     @allure.step("Заполняем номер телефона")
     def set_phone_number(self, value):
-        browser.element('#userNumber').type(value)
+        self.browser.element('#userNumber').type(value)
 
     @allure.step("Указываем дату рождения")
     def set_date_of_birth(self, year, month, day):
-        browser.element('#dateOfBirthInput').click()
-        browser.element('.react-datepicker__year-select').type(year)
-        browser.element('.react-datepicker__month-select').type(month)
-        browser.element(f'.react-datepicker__day--0{day}:not(.react-datepicker__day--otside-month)').click()
+        self.browser.element('#dateOfBirthInput').click()
+        self.browser.element('.react-datepicker__year-select').type(year)
+        self.browser.element('.react-datepicker__month-select').type(month)
+        self.browser.element(f'.react-datepicker__day--0{day}:not(.react-datepicker__day--otside-month)').click()
 
     @allure.step("Выбираем занятия")
     def set_subject(self, value):
-        browser.element('#subjectsInput').type(value).press_enter()
+        self.browser.element('#subjectsInput').type(value).press_enter()
 
     @allure.step("Выбираем хобби")
     def set_hobbies(self, *hobbies) -> None:
@@ -67,15 +65,15 @@ class RegistrationPage:
 
         for hobby in hobbies:
             if hobby in hobbies_mapping:
-                browser.element(f'[for="hobbies-checkbox-{hobbies_mapping[hobby]}"]').click()
+                self.browser.element(f'[for="hobbies-checkbox-{hobbies_mapping[hobby]}"]').click()
 
     @allure.step("Добавляем фото")
     def upload_picture(self):
-        browser.element('#uploadPicture').set_value(resource.path('photo.jpg'))
+        self.browser.element('#uploadPicture').set_value(resource.path('photo.jpg'))
 
     @allure.step("Указываем адрес")
     def set_address(self, value):
-        browser.element('#currentAddress').type(value)
+        self.browser.element('#currentAddress').type(value)
 
     @allure.step("Указываем штат")
     def set_state(self, value):
@@ -93,11 +91,11 @@ class RegistrationPage:
 
     @allure.step("Отправляем форму")
     def submit_form(self):
-        browser.element('#submit').click()
+        self.browser.element('#submit').click()
 
     @allure.step("Проверяем данные после отправки форму")
     def should_registration_user_data(self, full_name, email, gender, phone_number, date_of_birth, subject, hobbies, picture, address, state_and_city):
-        browser.element('.table-responsive').all('td').even.should(
+        self.browser.element('.table-responsive').all('td').even.should(
             have.exact_texts(
                 full_name,
                 email,
