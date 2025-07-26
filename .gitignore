@@ -208,3 +208,6 @@ __marimo__/
 
 # Allure
 /homework/tests/allure-results/
+
+# Idea
+.idea
